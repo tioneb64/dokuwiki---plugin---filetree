@@ -1,0 +1,124 @@
+/* Filetree : bande latérale repliable avec l'arborescence (style explorateur Obsidian) */
+
+#plugin_filetree {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background: __background_alt__;
+    color: __text__;
+    border-right: 1px solid __border__;
+    overflow: hidden;
+    transition: width .15s ease;
+}
+#plugin_filetree .ft-head, #plugin_filetree .ft-scroll { font-size: .9em; }
+@media (max-width: 900px) {
+    #plugin_filetree.ft-expanded { box-shadow: 4px 0 16px rgba(0, 0, 0, .25); max-width: 85vw; }
+}
+@media print {
+    #plugin_filetree { display: none !important; }
+    body.ft-on #dokuwiki__site { margin-left: 0 !important; }
+}
+
+#plugin_filetree .ft-head {
+    display: flex;
+    align-items: center;
+    gap: .3em;
+    padding: .5em .6em;
+    border-bottom: 1px solid __border__;
+}
+#plugin_filetree .ft-title { flex: 1; font-weight: 700; }
+#plugin_filetree .ft-btn {
+    border: 0;
+    background: none;
+    color: __text_neu__;
+    cursor: pointer;
+    padding: .1em .4em;
+    border-radius: 4px;
+    font-size: 1em;
+    line-height: 1.2;
+}
+#plugin_filetree .ft-btn:hover { background: __border__; color: __text__; }
+
+/* bouton déplier / replier */
+#plugin_filetree .ft-toggle {
+    flex: none;
+    width: 1.8em;
+    height: 1.8em;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    color: __text_neu__;
+    cursor: pointer;
+    font-size: 1.3em;
+    line-height: 1;
+}
+#plugin_filetree .ft-toggle:hover { background: __link__; color: #fff; }
+
+/* bande repliée : seul le bouton et le libellé vertical restent visibles */
+#plugin_filetree .ft-vlabel {
+    display: none;
+    flex: none;
+    align-self: center;
+    margin-top: .6em;
+    padding: .4em 0;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    color: __text_neu__;
+    font-weight: 700;
+    letter-spacing: .08em;
+    cursor: pointer;
+    user-select: none;
+}
+#plugin_filetree .ft-vlabel:hover { color: __link__; }
+#plugin_filetree:not(.ft-expanded) .ft-vlabel { display: block; }
+#plugin_filetree:not(.ft-expanded) .ft-title,
+#plugin_filetree:not(.ft-expanded) .ft-foldall,
+#plugin_filetree:not(.ft-expanded) .ft-scroll { display: none; }
+#plugin_filetree:not(.ft-expanded) .ft-head { padding: .5em .25em; border-bottom: 0; justify-content: center; }
+
+/* arbre */
+#plugin_filetree .ft-scroll { flex: 1; overflow: auto; padding: .4em .3em 1em; }
+#plugin_filetree ul.ft-tree { list-style: none; margin: 0; padding: 0; }
+#plugin_filetree ul.ft-tree ul.ft-tree { margin-left: .85em; padding-left: .3em; border-left: 1px solid __border__; }
+#plugin_filetree li.ft-item { margin: 0; padding: 0; background: none; list-style: none; }
+#plugin_filetree li.ft-item::before { content: none; }
+
+#plugin_filetree .ft-row,
+#plugin_filetree a.ft-page {
+    display: flex;
+    align-items: center;
+    gap: .3em;
+    padding: .15em .4em;
+    border-radius: 4px;
+    cursor: pointer;
+    color: __text__;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#plugin_filetree .ft-row:hover,
+#plugin_filetree a.ft-page:hover { background: __border__; text-decoration: none; }
+#plugin_filetree a.ft-page { display: block; padding-left: 1.3em; color: __text__; }
+#plugin_filetree a.ft-page.ft-current { background: __link__; color: #fff; font-weight: 700; }
+
+#plugin_filetree .ft-caret::before {
+    content: "\25B8";
+    display: inline-block;
+    width: .9em;
+    color: __text_neu__;
+    transition: transform .12s;
+}
+#plugin_filetree li.ft-expanded > .ft-row > .ft-caret::before { transform: rotate(90deg); }
+#plugin_filetree .ft-name { flex: 1; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+#plugin_filetree a.ft-home { color: __text_neu__; text-decoration: none; padding: 0 .25em; border-radius: 3px; }
+#plugin_filetree a.ft-home:hover { background: __link__; color: #fff; }
+#plugin_filetree li.ft-empty { padding: .15em 1.3em; color: __text_neu__; font-style: italic; }
+
+/* fichiers .md / .mmd déposés dans les pages : repérés par une étiquette */
+#plugin_filetree a.ft-file::before { content: "\2630\00a0"; opacity: .55; font-size: .85em; }

@@ -1,0 +1,7 @@
+base   filetree
+author Benoit
+email  benoit.thibaudeau64@gmail.com
+date   2026-11-17
+name   Filetree (explorateur de fichiers)
+desc   Panneau latéral rétractable, comme dans Obsidian : arborescence des espaces de noms ; on déplie un dossier pour voir les pages qu'il contient.
+url    https://www.dokuwiki.org/plugins
